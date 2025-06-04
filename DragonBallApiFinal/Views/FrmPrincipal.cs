@@ -19,7 +19,8 @@ namespace DragonBallApiFinal.Views
         private const int limitPerPage = 16;
 
         // Implementación de caché local
-        private Dictionary<int, List<Item>> personajesCache = new Dictionary<int, List<Item>>();
+        // Guardamos el objeto `Root` completo para conservar también los metadatos
+        private Dictionary<int, Root> personajesCache = new Dictionary<int, Root>();
 
 
         public FrmPrincipal()
@@ -93,8 +94,10 @@ namespace DragonBallApiFinal.Views
                 if (personajesCache.ContainsKey(page))
                 {
                     // Usar personajes de la caché
+                    var cachedRoot = personajesCache[page];
                     flowLayoutPanelPersonajes.Controls.Clear();
-                    await PopulateCharactersAsync(personajesCache[page]);
+                    await PopulateCharactersAsync(cachedRoot.Items);
+                    UpdateNavigationButtons(cachedRoot.Meta);
                 }
                 else
                 {
@@ -103,7 +106,7 @@ namespace DragonBallApiFinal.Views
 
                     if (root != null && root.Items != null)
                     {
-                        personajesCache[page] = root.Items; // Guardar en caché
+                        personajesCache[page] = root; // Guardar en caché con metadatos
                         flowLayoutPanelPersonajes.Controls.Clear();
                         await PopulateCharactersAsync(root.Items);
                         UpdateNavigationButtons(root.Meta);
