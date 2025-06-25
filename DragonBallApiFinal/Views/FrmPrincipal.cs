@@ -25,7 +25,7 @@ namespace DragonBallApiFinal.Views
         public FrmPrincipal()
         {
             InitializeComponent();
-            DoubleBuffered = true;  // Habilitar DoubleBuffering para suavizar la UI
+            DoubleBuffered = true;  // Habilitar DoubleBuffered para suavizar la UI
             InitializeLoadingLabel();  // Inicializar la etiqueta de carga
             LoadAndDisplayCharacters(currentPage);
             SetupNavigationButtons();
